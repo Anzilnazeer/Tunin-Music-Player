@@ -5,6 +5,7 @@ import 'package:tunin_2/screens/settings_pages/license.dart';
 import 'package:tunin_2/screens/settings_pages/privacy_policy.dart';
 import 'package:tunin_2/screens/settings_pages/reset_app.dart';
 import 'package:tunin_2/screens/settings_pages/settings_option.dart';
+import 'package:tunin_2/screens/settings_pages/sharelink.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -68,7 +69,9 @@ class SettingsPage extends StatelessWidget {
             OptionWidget(
               infoText: 'Share',
               infoIcon: Icons.share,
-              infoAction: () {},
+              infoAction: () {
+                shareLink(context);
+              },
             ),
           ],
         ),

@@ -61,112 +61,115 @@ class _PlayListPageState extends State<PlayListPage> {
                             TextStyle(color: Color.fromARGB(255, 75, 75, 75)),
                       ),
                     )
-                  : ValueListenableBuilder(
-                      valueListenable:
-                          Hive.box<AudioPlayer>('playlistDB').listenable(),
-                      builder: (BuildContext context,
-                          Box<AudioPlayer> musicList, Widget? child) {
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          physics: const ClampingScrollPhysics(),
-                          itemCount: musicList.length,
-                          itemBuilder: ((context, index) {
-                            final data = musicList.values.toList()[index];
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.only(right: 20, top: 15),
-                              child: ListTile(
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(30),
-                                      bottomRight: Radius.circular(30)),
-                                ),
-                                tileColor:
-                                    const Color.fromARGB(57, 129, 129, 129),
-                                leading: const Icon(
-                                  Icons.folder,
-                                  size: 30,
-                                  color: Colors.white,
-                                ),
-                                title: Text(
-                                  data.name,
-                                  style: const TextStyle(color: Colors.white),
-                                ),
-                                trailing: IconButton(
-                                  icon: Icon(
-                                    Icons.delete,
-                                    color: ColorsinUse().red,
+                  : SingleChildScrollView(
+                      child: ValueListenableBuilder(
+                        valueListenable:
+                            Hive.box<AudioPlayer>('playlistDB').listenable(),
+                        builder: (BuildContext context,
+                            Box<AudioPlayer> musicList, Widget? child) {
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            physics: const ClampingScrollPhysics(),
+                            itemCount: musicList.length,
+                            itemBuilder: ((context, index) {
+                              final data = musicList.values.toList()[index];
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.only(right: 20, top: 15),
+                                child: ListTile(
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(30),
+                                        bottomRight: Radius.circular(30)),
                                   ),
-                                  onPressed: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                            backgroundColor:
-                                                const Color.fromARGB(
-                                                    206, 69, 69, 69),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0),
-                                            ),
-                                            title: const Text(
-                                              'Delete Playlist',
-                                              style: TextStyle(
+                                  tileColor:
+                                      const Color.fromARGB(57, 129, 129, 129),
+                                  leading: const Icon(
+                                    Icons.folder,
+                                    size: 30,
+                                    color: Colors.white,
+                                  ),
+                                  title: Text(
+                                    data.name,
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                  trailing: IconButton(
+                                    icon: Icon(
+                                      Icons.delete,
+                                      color: ColorsinUse().red,
+                                    ),
+                                    onPressed: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              backgroundColor:
+                                                  const Color.fromARGB(
+                                                      206, 69, 69, 69),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20.0),
+                                              ),
+                                              title: const Text(
+                                                'Delete Playlist',
+                                                style: TextStyle(
+                                                    color: Color.fromARGB(
+                                                        255, 255, 255, 255),
+                                                    fontSize: 15),
+                                              ),
+                                              content: const Text(
+                                                'Are you sure you want to delete this playlist?',
+                                                style: TextStyle(
                                                   color: Color.fromARGB(
                                                       255, 255, 255, 255),
-                                                  fontSize: 15),
-                                            ),
-                                            content: const Text(
-                                              'Are you sure you want to delete this playlist?',
-                                              style: TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 255, 255, 255),
+                                                ),
                                               ),
-                                            ),
-                                            actions: <Widget>[
-                                              TextButton(
-                                                child: const Text(
-                                                  'Yes',
-                                                  style: TextStyle(
-                                                    color: Color.fromARGB(
-                                                        255, 227, 66, 66),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  child: const Text(
+                                                    'Yes',
+                                                    style: TextStyle(
+                                                      color: Color.fromARGB(
+                                                          255, 227, 66, 66),
+                                                    ),
                                                   ),
+                                                  onPressed: () {
+                                                    musicList.deleteAt(index);
+                                                    Navigator.pop(context);
+                                                  },
                                                 ),
-                                                onPressed: () {
-                                                  musicList.deleteAt(index);
-                                                  Navigator.pop(context);
-                                                },
-                                              ),
-                                              TextButton(
-                                                child: const Text(
-                                                  'No',
-                                                  style: TextStyle(
-                                                      color: Colors.white),
-                                                ),
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                              )
-                                            ],
-                                          );
-                                        });
+                                                TextButton(
+                                                  child: const Text(
+                                                    'No',
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  ),
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                )
+                                              ],
+                                            );
+                                          });
+                                    },
+                                  ),
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) {
+                                        return PlaylistAddSongs(
+                                          playlist: data,
+                                          folderindex: index,
+                                        );
+                                      },
+                                    ));
                                   },
                                 ),
-                                onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) {
-                                      return PlaylistAddSongs(
-                                        playlist: data,
-                                        folderindex: index,
-                                      );
-                                    },
-                                  ));
-                                },
-                              ),
-                            );
-                          }),
-                        );
-                      },
+                              );
+                            }),
+                          );
+                        },
+                      ),
                     ),
             ]),
           ),

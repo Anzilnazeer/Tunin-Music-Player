@@ -9,7 +9,7 @@ class LicenseView {
           height: 80,
         ),
         applicationName: 'TUNIN',
-        applicationVersion: '1.2.0',
+        applicationVersion: '1.0.1',
         applicationLegalese: 'Made with love from anzil(Brocamp)');
   }
 }

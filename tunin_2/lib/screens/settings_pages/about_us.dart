@@ -19,7 +19,7 @@ class AboutUs {
                   style: TextStyle(color: Color.fromARGB(255, 180, 63, 63)),
                 ),
                 Text(
-                  "v1.2.0",
+                  "v1.0.1",
                   style: TextStyle(
                       color: Color.fromARGB(255, 172, 45, 45),
                       fontWeight: FontWeight.bold),
